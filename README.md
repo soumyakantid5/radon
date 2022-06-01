@@ -1,4 +1,10 @@
 # radon
-Backend cohort May 2022 - Sep 2022
+Radon cohort
+Week 3 Day 3
+1st Assignment NODE JS 
+3 Modules Created...
+logger-prints welcome message
+util-prints date & month
+validator-trims whitespaces,converts strings to upper or lower case
+Updated By Soumya Dutta on 1st June,2022
 
-Assignment : https://docs.google.com/document/d/1HanTHEnUW0d2M7KOCTWrnqzwRWOkLUU0X_x_TwWnyTs/edit?usp=sharing

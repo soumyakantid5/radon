@@ -5,13 +5,13 @@ let validator_module=require('../validator/formatter.js')
 
 const router = express.Router();
 
-router.get('/welcome', function (req, res) {
+router.get('/', function (req, res) {
     logger_module.welcome()
     res.send('My Welcome api!')
 });
 router.get('/date', function (req, res) {
     date_module.printDate()
-    date_module.prinMonth()
+    date_module.printMonth()
     date_module.getBatchInfo();
     res.send('My Date api!')
 });
