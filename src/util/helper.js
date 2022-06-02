@@ -1,10 +1,10 @@
-let d=new Date(2022,5,1)
+let d=new Date()
 
 let printDate=function(){
     console.log(d.toDateString());
 } 
 var printMonth=function(){
-    console.log(d.toLocaleString('default', { month: 'long' }));
+    console.log('Current Month is',d.toLocaleString('default', { month: 'long' }));
 } 
 const getBatchInfo=function(){
     console.log("Radon Batch 3rd Week 3rd Day.")
