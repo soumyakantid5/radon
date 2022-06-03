@@ -65,20 +65,21 @@ let players =
 ]
 
 router.post('/players',function(req,res){
-
+let status=true;
 for(let i=0;i<players.length;i++){
-    if(players[i]["name"]!==req.body.name)
+    if(players[i]["name"]===req.body.name)
     {
-        players.push(req.body)
-        console.log("updated")
+        console.log("Duplicate")
+        status=false
         break
     }
-    else
-    console.log("Duplicate")
-   
 }
-console.log(players)
+if(status===true){
+    console.log("Not Duplicate..Record Inserted ")
+    players.push(req.body)
+}
 
+console.log(players)
 
 res.send("done")
 });
