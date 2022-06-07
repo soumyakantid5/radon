@@ -17,6 +17,18 @@ const getBooksInYear= async function (req, res) {
     res.send({msg: booksInYear})
 }
 
+const getParticularBooks= async function (req, res) {
+    let condition=req.body
+       let bookNameCheck= await bookModel.find(condition ) 
+       res.send({msg:bookNameCheck })
+       /*In the Above solution,we would get no record if we pass "hi" as bookName,so tried this approach previously.After Sir told us to do the above mentioned way,I've changed it. 
+       let random=req.body
+let x=new RegExp(`${random.bookName}`, "gi") 
+let y=new RegExp(`${random.year}`,"gi")
+       let bookNameCheck= await bookModel.find( {$or:[{ bookName: x },{year:y}]}) 
+       res.send({msg:bookNameCheck })*/
+}
+
 const getXINRBooks= async function (req, res) {
    let listOfBooks= await bookModel.find({["price.indRupee"]:
                 {$in:["100INR","200INR","300INR"]}}). select({bookName:1,_id:0})
@@ -28,14 +40,7 @@ const getRandomBooks= async function (req, res) {
     res.send({msg:randomBooks })
 }
 
-const getParticularBooks= async function (req, res) {
-    let random=req.body
-let x=new RegExp(`${random.bookName}`, "gi") 
-let y=new RegExp(`${random.year}`,"gi")
-      
-       let bookNameCheck= await bookModel.find( {$or:[{ bookName: x },{year:y}]}) 
-       res.send({msg:bookNameCheck })
-}
+
 
 module.exports.createBook= createBook
 module.exports.getBookList= getBookList
