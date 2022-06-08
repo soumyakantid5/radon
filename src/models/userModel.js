@@ -8,6 +8,6 @@ address:{type:String,required:true}
 }, 
 { timestamps: true });
 
-module.exports = mongoose.model('NewAuthor', userSchema) //users
+module.exports = mongoose.model('NewAuthor', userSchema) //newauthors
 
 

@@ -26,21 +26,12 @@ const getAuthorAndUpdatePrice= async function (req, res) {
 
     const getUsersList= async function (req, res) {
     let data= await BookModel.find( { price : { $gte: 50, $lte: 100} } ).select({ author_id :1,_id:0})
-         
-         let arr=[],newArr=[],x
+         let arr=[]
          for(let i=0;i<data.length;i++){
-         arr.push(data[i]["author_id"])
+         let author=await UserModel.find({author_id:data[i].author_id}).select({author_name:1,_id:0})
+         arr.push(author)
          }
-         console.log(arr)
-
-    let nameData1=await UserModel.find({author_id:arr[0]}).select({author_name :1,_id:0})
-    let nameData2=await UserModel.find({author_id:arr[1]}).select({author_name :1,_id:0})
-    let nameData3=await UserModel.find({author_id:arr[2]}).select({author_name :1,_id:0})
-    let nameData4=await UserModel.find({author_id:arr[3]}).select({author_name :1,_id:0})
-    let nameData5=await UserModel.find({author_id:arr[4]}).select({author_name :1,_id:0})
-   // console.log(nameData)
-       
-        res.send({'msg':nameData1,nameData2,nameData3,nameData4,nameData5})
+         res.send({arr})
         }
         
 module.exports.createBook= createBook
