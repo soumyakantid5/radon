@@ -11,5 +11,9 @@ router.post("/createBook", BookController.createBook  )
 router.get("/getBooksDataByAuthor", BookController.getBooksDataByAuthor)
 router.get("/getUserData", UserController.getUsersData)
 router.get("/getAuthorAndUpdatePrice", BookController.getAuthorAndUpdatePrice)
-router.get("/getUsersList", BookController.getUsersList)
+router.get("/getUsersList/:id", BookController.getUsersList)
+router.get("/authorAgeAndRating",UserController.authorAgeAndRating)
+
+router.get("/books_by_id/:id", UserController.books_by_id)
+
 module.exports = router;
