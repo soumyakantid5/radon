@@ -48,15 +48,21 @@ const updatePrice= async function (req, res) {
 const updateBookType=async function(req,res){
     
 let data=await bookModel.find().populate('publisher')
-
+//console.log(data[0])
+let arr=[]
 for(i=0;i<data.length;i++){
 if(data[i].publisher.name==="Penguin"||data[i].publisher.name===" HarperCollins"){
-    let updatedData= await bookModel.updateMany({'data[i].isHardCover':false},{$set:{'data[i].isHardCover':true}},{new:true})
+   // console.log(i,data[i].publisher.name)
+   let x=data[i]
+   console.log(x.isHardCover)
+   let y=await bookModel.findOneAndUpdate({["x.isHardCover"]:false},{$set:{["x.isHardCover"]:true}},{new:true})
+}
+else{
+   continue
 }
 }
-let data1=await bookModel.find().populate('publisher')
-console.log(data1)
-res.send({'msg':data1})
+//let data1=await bookModel.find()
+res.send({'msg':data})
 }
 
 module.exports.createBook= createBook

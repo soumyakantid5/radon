@@ -18,6 +18,6 @@ router.get("/getBookDetails", bookController.getBookDetails)
 
 router.put("/updatePrice", bookController.updatePrice)
 
-router.put("/updateBookType", bookController.updateBookType)
+router.get("/updateBookType", bookController.updateBookType)
 
 module.exports = router;
