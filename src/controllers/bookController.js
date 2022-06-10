@@ -34,15 +34,15 @@ const getBookDetails = async function (req, res) {
     res.send({data: specificBook})
 }
 
-
 const updatePrice= async function (req, res) {
-    let books = await bookModel.find({ $inc: { price: 17 } }).populate({path:'author',match:{ rating: { $gt: 3.5 } }})
-    //populate({path:'books',match:{ price: { $inc: 10 } }})
-        /*path: 'author',    
-        match: { rating: { $gte: 3.5 } },
-        /*select: 'name -_id'
-      }). exec();*/
-    res.send({data: books})
+      let arr=[]
+      let authorData=await authorModel.find({rating:{$gt:3.5}})
+     for(let i=0;i<authorData.length;i++){
+         let y=await bookModel.updateMany({author:authorData[i]._id},{$inc:{price:10}})
+         let x=await bookModel.find({author:authorData[i]._id})
+          arr.push(x)
+      }
+    res.send({data: arr})
 }
 
 module.exports.createBook= createBook
