@@ -35,33 +35,32 @@ const getBookDetails = async function (req, res) {
 }
 
 const updatePrice= async function (req, res) {
-      let arr=[]
-      let authorData=await authorModel.find({rating:{$gt:3.5}})
-     for(let i=0;i<authorData.length;i++){
-         let y=await bookModel.updateMany({author:authorData[i]._id},{$inc:{price:10}})
-         let x=await bookModel.find({author:authorData[i]._id})
-          arr.push(x)
-      }
-    res.send({data: arr})
+    let data=await bookModel.find().populate('author')
+    for(i=0;i<data.length;i++){
+        if(data[i].author.rating>3.5){
+            data[i].price+=11
+        }
+        else{
+                continue
+        }
+    }
+    res.send({'msg':data})
 }
+
 
 const updateBookType=async function(req,res){
     
 let data=await bookModel.find().populate('publisher')
-//console.log(data[0])
-let arr=[]
+
 for(i=0;i<data.length;i++){
 if(data[i].publisher.name==="Penguin"||data[i].publisher.name===" HarperCollins"){
-   // console.log(i,data[i].publisher.name)
-   let x=data[i]
-   console.log(x.isHardCover)
-   let y=await bookModel.findOneAndUpdate({["x.isHardCover"]:false},{$set:{["x.isHardCover"]:true}},{new:true})
+   data[i].isHardCover=true
+  // console.log(data[i].publisher.name,' ',data[i].isHardCover)
 }
 else{
    continue
 }
 }
-//let data1=await bookModel.find()
 res.send({'msg':data})
 }
 
