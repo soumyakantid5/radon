@@ -13,10 +13,10 @@ const userSchema = new mongoose.Schema( {
         enum:['male','female','other']
     },
 
-	/*isfreeappuser: {
+	isfreeappuser: {
         type:Boolean,
         default:false
-    }*/ // Default false value.
+    } // Default false value.
    
 }, { timestamps: true });
 

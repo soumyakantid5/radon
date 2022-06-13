@@ -13,10 +13,10 @@ const purchaseOrder= async function (req, res) {
    
         if(status==='true')
         {      //TRUE
-         console.log("True block")
             let data=req.body
             data.amount=0
-        let savedData= await orderModel.create(data).
+            data.isfreeappuser=true
+        let savedData= await orderModel.create(data)
         res.send({'msg':savedData})
         }
        
@@ -27,8 +27,8 @@ const purchaseOrder= async function (req, res) {
          { 
             
             console.log(completeData.balance)
-            console.log("False block")
             let data=req.body
+            data.isfreeappuser=false
             console.log(data.amount)
             let remBalance=completeData.balance-data.amount
             console.log(remBalance)
@@ -38,7 +38,7 @@ const purchaseOrder= async function (req, res) {
             res.send({'msg':savedData})
          }
          else
-         {
+         {        
             res.send({'msg':"you do not have sufficient balance"})
          }
           
