@@ -6,9 +6,13 @@ const createUser = async function (req, res) {
   //but the first parameter is always the request 
   //the second parameter is always the response
   let data = req.body;
+  let user = await userModel.findOne({ emailId: req.body.emailId });
+  if(!user){
   let savedData = await userModel.create(data);
- // console.log(req.newAtribute);
   res.send({ msg: savedData });
+  }
+  else
+ res.send("User already exists");
 };
 
 const loginUser = async function (req, res) {

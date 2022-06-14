@@ -20,9 +20,11 @@ module.exports.tokenChecker=async function(req,res,next){
 module.exports.statusChecker=async function(req,res,next){
     let userId = req.params.userId;
     let userDetails = await userModel.findById(userId);
-    if(!userDetails.isDeleted){
-        next()
+    if(userDetails===null)
+    res.send("Enter correct User Id")
+    else if(userDetails.isDeleted){
+        res.send("User Deleted")
     }
     else
-    res.send("User Deleted")
+    next()
 }
