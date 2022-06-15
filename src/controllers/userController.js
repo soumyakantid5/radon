@@ -2,17 +2,14 @@ const jwt = require("jsonwebtoken");
 const userModel = require("../models/userModel");
 
 const createUser = async function (req, res) {
-  //You can name the req, res objects anything.
-  //but the first parameter is always the request 
-  //the second parameter is always the response
   let data = req.body;
   let user = await userModel.findOne({ emailId: req.body.emailId });
   if(!user){
   let savedData = await userModel.create(data);
-  res.send({ msg: savedData });
+  res.send({ "Registration Successful": savedData });
   }
   else
- res.send("User already exists");
+ res.send("User already exists..,Try to login instead.");
 };
 
 const loginUser = async function (req, res) {
@@ -23,15 +20,10 @@ const loginUser = async function (req, res) {
   if (!user)
     return res.send({
       status: false,
-      msg: "username or the password is not corerct",
+      msg: "username or the password is not corerct...Try again",
     });
 
-  // Once the login is successful, create the jwt token with sign function
-  // Sign function has 2 inputs:
-  // Input 1 is the payload or the object containing data to be set in token
-  // The decision about what data to put in token depends on the business requirement
-  // Input 2 is the secret
-  // The same secret will be used to decode tokens
+
   let token = jwt.sign(
     {
       userId: user._id.toString(),
@@ -41,16 +33,10 @@ const loginUser = async function (req, res) {
     "functionup-radon"
   );
   res.setHeader("x-auth-token", token);
-  res.send({ status: true, token: token });
+  res.send({ "Token Generated": true, token: token });
 };
 
 const getUserData = async function (req, res) {
- 
-  // If a token is present then decode the token with verify function
-  // verify takes two inputs:
-  // Input 1 is the token to be decoded
-  // Input 2 is the same secret with which the token was generated
-  // Check the value of the decoded token yourself
   
   let userId = req.params.userId;
   let userDetails = await userModel.findById(userId);
@@ -62,11 +48,6 @@ const getUserData = async function (req, res) {
 
 const updateUser = async function (req, res) {
 
-// Do the same steps here:
-// Check if the token is present
-// Check if the token present is a valid token
-// Return a different error message in both these cases
-
   let userId = req.params.userId;
   let user = await userModel.findById(userId);
   //Return an error if no user with the given id exists in the db
@@ -76,7 +57,7 @@ const updateUser = async function (req, res) {
 
   let userData = req.body;
   let updatedUser = await userModel.findOneAndUpdate({ _id: userId }, {$set:userData},{new:true});
-  res.send({ status:updatedUser });
+  res.send({ "Record Updated":updatedUser });
 };
 
 const deleteUser=async function(req,res){
@@ -89,9 +70,7 @@ const deleteUser=async function(req,res){
     }
     let deletedUser=await userModel.findOneAndUpdate({_id:userId},{$set:{isDeleted:true}},{new:true});
       res.send({msg:"Record Deleted"})
-   
-
-}
+};
 
 module.exports={createUser,getUserData,updateUser,deleteUser,loginUser}
 

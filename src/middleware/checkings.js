@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const userModel = require("../models/userModel");
+
 module.exports.tokenChecker=async function(req,res,next){
     let token = req.headers["x-Auth-token"];
     if (!token) 
@@ -7,14 +8,19 @@ module.exports.tokenChecker=async function(req,res,next){
   
     //If no token is present in the request header return error
     if (!token) 
-    return res.send({ status: false, msg: "token must be present" });
+    return res.send({ status: false, msg: "Token must be present" });
   
-    console.log("Token = ",token);
-  
+    //console.log("Token = ",token);
+    
+    let paramsId = req.params.userId;
     let decodedToken = jwt.verify(token, "functionup-radon");
+    let userLoggedIn = decodedToken.userId
     if (!decodedToken)
       return res.send({ status: false, msg: "token is invalid" });
-    next()
+     else if(paramsId!==userLoggedIn)
+     res.send({status: false, msg: 'You are not allowed to modify the requested user\'s data'})
+    else
+     next()
 }
 
 module.exports.statusChecker=async function(req,res,next){
