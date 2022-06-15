@@ -9,7 +9,7 @@ const createUser = async function (req, res) {
   res.send({ "Registration Successful": savedData });
   }
   else
- res.send("User already exists..,Try to login instead.");
+ res.send("User already exists...Try to login instead.");
 };
 
 const loginUser = async function (req, res) {
@@ -60,6 +60,16 @@ const updateUser = async function (req, res) {
   res.send({ "Record Updated":updatedUser });
 };
 
+const createPost = async function (req, res) {
+  let uid=req.params.userId
+  let msg=req.body.post
+  let data=await userModel.findById(uid)
+  let updatePost=data.post
+  updatePost.push(msg)
+  let updateUser=await userModel.findOneAndUpdate({_id:uid},{post:updatePost},{new:true})
+  res.send({status: true, data: updateUser})
+}
+
 const deleteUser=async function(req,res){
 
     let userId = req.params.userId;
@@ -72,5 +82,5 @@ const deleteUser=async function(req,res){
       res.send({msg:"Record Deleted"})
 };
 
-module.exports={createUser,getUserData,updateUser,deleteUser,loginUser}
+module.exports={createUser,loginUser,getUserData,updateUser,createPost,deleteUser}
 
