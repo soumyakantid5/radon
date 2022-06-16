@@ -39,7 +39,7 @@ const loginUser = async function (req, res) {
     "functionup-radon"
   );
   res.setHeader("x-auth-token", token);
-  res.send({ "Token Generated": true, token: token });
+  res.status(200).send({ "Token Generated": true, token: token });
   }
   catch(error){
     console.log("This is the error in login API :", err.message)

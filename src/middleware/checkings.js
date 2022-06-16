@@ -8,7 +8,7 @@ module.exports.authenticate=async function(req,res,next){
     token = req.headers["x-auth-token"];
     //If no token is present in the request header return error
     if (!token) 
-    return res.send({ status: false, msg: "Token must be present" });
+    return res.status(401).send({ status: false, msg: "Token must be present" });
     //console.log("Token = ",token);
     else
     next()
@@ -24,7 +24,7 @@ module.exports.authorise=function(req,res,next){
     let decodedToken = jwt.verify(req.headers["x-Auth-token"]||req.headers["x-auth-token"], "functionup-radon");
     let userLoggedIn = decodedToken.userId
     if (!decodedToken)
-      return res.send({ status: false, msg: "token is invalid" });
+      return res.status(401).send({ status: false, msg: "token is invalid" });
      else if(paramsId!==userLoggedIn)
      res.send({status: false, msg: 'You are not allowed to modify the requested user\'s data'})
     else
@@ -40,9 +40,9 @@ module.exports.statusChecker=async function(req,res,next){
     let userId = req.params.userId;
     let userDetails = await userModel.findById(userId);
     if(userDetails===null)
-    res.send("Enter correct User Id")
+    res.status(401).send("Enter correct User Id")
     else if(userDetails.isDeleted){
-        res.send("User Deleted")
+        res.status(404).send("User Deleted")
     }
     else
     next()
