@@ -4,7 +4,7 @@ const userController= require("../controllers/userController")
 const validity=require("../middleware/checkings")
 
 
-router.post("/users", userController.createUser  )
+router.post("/users", userController.createUser)
 router.post("/login", userController.loginUser)
 
 //The userId is sent by front end
@@ -15,5 +15,6 @@ router.put("/users/:userId",validity.authenticate,validity.authorise, validity.s
 router.post("/users/:userId/post",validity.authenticate,validity.authorise, validity.statusChecker, userController.createPost)
 
 router.delete("/users/:userId",validity.authenticate,validity.authorise, validity.statusChecker, userController.deleteUser)
+
 
 module.exports = router;

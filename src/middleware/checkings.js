@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const userModel = require("../models/userModel");
 
 module.exports.authenticate=async function(req,res,next){
+    try{
     let token = req.headers["x-Auth-token"];
     if (!token) 
     token = req.headers["x-auth-token"];
@@ -11,8 +12,14 @@ module.exports.authenticate=async function(req,res,next){
     //console.log("Token = ",token);
     else
     next()
+    }
+    catch(err){
+        console.log("This is the error in authenticate API :", err.message)
+        res.status(500).send({ msg: "Error", error: err.message })
+      } 
 }
 module.exports.authorise=function(req,res,next){
+    try{
     let paramsId = req.params.userId;
     let decodedToken = jwt.verify(req.headers["x-Auth-token"]||req.headers["x-auth-token"], "functionup-radon");
     let userLoggedIn = decodedToken.userId
@@ -22,8 +29,14 @@ module.exports.authorise=function(req,res,next){
      res.send({status: false, msg: 'You are not allowed to modify the requested user\'s data'})
     else
      next()
+    }
+    catch(err){
+        console.log("This is the error in authorise API :", err.message)
+        res.status(500).send({ msg: "Error", error: err.message })
+      }
 }
 module.exports.statusChecker=async function(req,res,next){
+    try{
     let userId = req.params.userId;
     let userDetails = await userModel.findById(userId);
     if(userDetails===null)
@@ -33,4 +46,9 @@ module.exports.statusChecker=async function(req,res,next){
     }
     else
     next()
+}
+catch(err){
+    console.log("This is the error in statusChecker API :", err.message)
+    res.status(500).send({ msg: "Error", error: err.message })
+  }
 }
